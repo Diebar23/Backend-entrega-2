@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "medallon de pollo",
+    "description": "puro pollo",
+    "price": 900,
+    "img": "sin imagen",
+    "code": "abc123",
+    "stock": 30
+  },
+  {
+    "id": 2,
+    "title": "milanesa",
+    "description": "pura carne vacuna",
+    "price": 900,
+    "img": "sin imagen",
+    "code": "abc124",
+    "stock": 30
+  }
+]

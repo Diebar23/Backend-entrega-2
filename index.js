@@ -9,13 +9,13 @@ class ProductManager {
         this.products = [];
         this.path = path;
     }
-
+    //Metodo
     async addProduct(nuevoObjeto) {
-        let {title, description, price, image, code, stock} = 
+        let {title, description, price, img, code, stock} = 
         nuevoObjeto;
 
         
-        if(!title || !description || !price || !image || !code || !stock) 
+        if(!title || !description || !price || !img || !code || !stock) 
         {
             console.log("Todos los campos deben estar completos");
             return;
@@ -32,7 +32,7 @@ class ProductManager {
             title,
             description,
             price,
-            image,
+            img,
             code,
             stock,            
         }
@@ -106,6 +106,7 @@ class ProductManager {
             id);
 
             if(index !== -1) {
+                //Array spice reemplaza el objeto en la posicion del index
                 arrayProductos.splice(index, 1, productoActualizado);
                 await this.guardarArchivo(arrayProductos);
             } else {
@@ -118,14 +119,38 @@ class ProductManager {
     }
 
 
+    async deleteProduct(id) {
+        try {
+            const arrayProductos = await this.leerArchivo();
+
+            const index = arrayProductos.findIndex(item=> item.id === 
+            id);
+
+            if(index !== -1) {
+                //Array spice reemplaza el objeto en la posicion del index
+                arrayProductos.splice(index, 1);
+                await this.guardarArchivo(arrayProductos);
+            } else {
+                console.log("No se encontró el producto");
+            }
+
+        } catch (error) {
+            console.log("Error al eliminar", error);
+        }
+    }
+
 }
 
 //Testing
 
+const manager = new ProductManager("./productos.json");
+
+manager.getProducts();
+
 
 const hamburguesa = {
     title: "hamburguesa",
-    description: "100 % carne vacuna",
+    description: "pura carne vacuna",
     price: 800,
     img: "sin imagen",
     code:"abc123",
@@ -137,7 +162,7 @@ manager.addProduct(hamburguesa);
 
 const milanesa = {
     title: "milanesa",
-    description: "100 % carne vacuna",
+    description: "pura carne vacuna",
     price: 900,
     img: "sin imagen",
     code:"abc124",
@@ -155,3 +180,26 @@ async function testeamosBusquedaPorId() {
 
 testeamosBusquedaPorId();
 
+const pollo= {
+    id: 1,
+    title: "medallon de pollo",
+    description: "puro pollo",
+    price: 900,
+    img: "sin imagen",
+    code:"abc123",
+    stock: 30
+}
+
+async function testeamosActualizar() {
+    await manager.updateProduct(1, pollo);
+}
+
+testeamosActualizar();
+
+
+
+async function eliminarProducto() {
+    await manager.deleteProduct(2);
+}
+
+eliminarProducto();
